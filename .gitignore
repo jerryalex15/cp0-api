@@ -4,6 +4,16 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
+# Docker
+.docker-compose.yaml
+.env
+
+# Fichiers secrets
+application.properties
+application-dev.properties
+application-prod.properties
+application-test.properties
+
 ### STS ###
 .apt_generated
 .classpath
