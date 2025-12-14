@@ -1,6 +1,7 @@
 package com.example.cp0_api.service;
 
 import com.example.cp0_api.dto.*;
+import com.example.cp0_api.exception.DuplicateResourceException;
 import com.example.cp0_api.mapper.IAppMapper;
 import com.example.cp0_api.model.Thematic;
 import com.example.cp0_api.repository.ThematicRepository;
@@ -33,12 +34,17 @@ public class ThematicServiceImpl implements ThematicService{
     }
 
     /**
-     * @param thematicRequest
-     * @return the ThematicResponseLight created
+     * @param thematicRequest is given through the API request
      * @return the ThematicResponseLight created
      */
     @Override
     public ThematicResponseLight create(ThematicRequest thematicRequest) {
+        if (thematicRepository.existsByNomThematic(thematicRequest.getNomThematic())){
+            throw new DuplicateResourceException(
+                    "Thematic '" + thematicRequest.getNomThematic() + "' already exist."
+            );
+        }
+
         Thematic thematic = new Thematic();
         thematic.setNomThematic(thematicRequest.getNomThematic());
 

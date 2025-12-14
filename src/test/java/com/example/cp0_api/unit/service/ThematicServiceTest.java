@@ -1,13 +1,13 @@
-package com.example.cp0_api.serviceTest;
+package com.example.cp0_api.unit.service;
 
 import com.example.cp0_api.dto.ThematicRequest;
 import com.example.cp0_api.dto.ThematicResponseBase;
 import com.example.cp0_api.dto.ThematicResponseFull;
 import com.example.cp0_api.dto.ThematicResponseLight;
+import com.example.cp0_api.exception.DuplicateResourceException;
 import com.example.cp0_api.mapper.IAppMapper;
 import com.example.cp0_api.model.Thematic;
 import com.example.cp0_api.repository.ThematicRepository;
-import com.example.cp0_api.service.ThematicService;
 import com.example.cp0_api.service.ThematicServiceImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -78,7 +78,7 @@ public class ThematicServiceTest {
     }
 
     @Test
-    void givenInvalidId_whenGetThematic_thenReturnException(){
+    void givenInvalidId_whenGetThematic_thenThrowException(){
         // Given
         Long id = 0L;
 
@@ -125,5 +125,21 @@ public class ThematicServiceTest {
         Assertions.assertNotNull(createdThematic);
         Mockito.verify(thematicRepository).save(Mockito.any(Thematic.class));
         Assertions.assertEquals(createdThematic.getNomThematic(), thematicRequest.getNomThematic());
+    }
+
+    @Test
+    void givenExistingThematicName_whenCreateThematic_thenThrowException() {
+        // Given
+        ThematicRequest request = new ThematicRequest("Loisir");
+        Mockito.when(thematicRepository.existsByNomThematic("Loisir"))
+                .thenReturn(true);
+
+        // When / Then
+        Assertions.assertThrows(
+                DuplicateResourceException.class,
+                () -> thematicServiceImpl.create(request)
+        );
+
+        Mockito.verify(thematicRepository, Mockito.never()).save(Mockito.any());
     }
 }

@@ -5,7 +5,7 @@ target/
 !**/src/test/**/target/
 
 # Docker
-.docker-compose.yaml
+.docker-compose.yml
 .env
 
 # Fichiers secrets
