@@ -6,11 +6,11 @@ target/
 
 # Docker
 docker-compose.yml
-.env.dev
-.env.prod
 docker-compose.prod.yml
 docker-compose.dev.yml
 docker-compose.test.yml
+.env.dev
+.env.prod
 
 # Fichiers secrets
 application.properties
