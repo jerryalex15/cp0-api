@@ -1,0 +1,11 @@
+services:
+  backend:
+    build: .
+    container_name: cp0_backend_dev
+    restart: always
+    env_file:
+      - .env.dev
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres

@@ -1,0 +1,14 @@
+services:
+  backend:
+    build: .
+    container_name: cp0_backend_prod
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      SPRING_SECURITY_ENABLED: true
+    restart: always
+    env_file:
+      - .env.prod
+    ports:
+      - "8081:8080"   # attention au port pour éviter conflit avec dev
+    depends_on:
+      - postgres
