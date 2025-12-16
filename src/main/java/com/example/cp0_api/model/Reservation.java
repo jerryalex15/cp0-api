@@ -22,6 +22,7 @@ public class Reservation {
     @ManyToOne
     @JoinColumn(name = "idPersonne")
     private Person person;
+    // private Integer nombrePerson; on l'ajouterai apres le prod
     private LocalDate dateReservation;
 
     @ManyToOne

@@ -22,7 +22,11 @@ public class Person {
     private String nom;
     private String prenom;
     private String email;
+    private String password;
     private String telephone;
+
+    private String provider;   // LOCAL ou GOOGLE
+    private String providerId; // sub de Google
 
     @OneToMany(mappedBy = "person")
     @ToString.Exclude

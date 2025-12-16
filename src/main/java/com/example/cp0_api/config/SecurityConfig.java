@@ -3,6 +3,7 @@ package com.example.cp0_api.config;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -26,7 +27,18 @@ public class SecurityConfig {
         // Prod : sécurité activée
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
+                        // Mettre les GET en public
+                        .requestMatchers(HttpMethod.GET, "/**").permitAll()
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
+
+                        // LOGIN
+                        .requestMatchers(HttpMethod.POST, "/auth/**").permitAll()
+
+                        // PROTÉGÉ
+                        .requestMatchers(HttpMethod.POST, "/reservations/**").authenticated()
+                        .requestMatchers(HttpMethod.DELETE, "/reservations/**").authenticated()
+
+                        // tout le reste
                         .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults());
 

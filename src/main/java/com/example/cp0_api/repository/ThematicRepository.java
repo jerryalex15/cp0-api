@@ -9,6 +9,4 @@ import java.util.Optional;
 @Repository
 public interface ThematicRepository extends JpaRepository<Thematic, Long> {
     boolean existsByNomThematic(String nomThematic);
-
-    Optional<Thematic> findByNomThematic(String nomThematic);
 }
