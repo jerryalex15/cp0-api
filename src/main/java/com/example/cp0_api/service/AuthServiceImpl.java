@@ -26,7 +26,18 @@ public class AuthServiceImpl implements AuthService {
      */
     @Override
     public TokenResponse signin(SignInRequest request) {
-        return null;
+        Person user = Person.builder()
+                .nom(request.getNom())
+                .prenom(request.getPrenom())
+                .email(request.getEmail())
+                .password(request.getPassword())
+                .telephone(request.getTelephone())
+                .build();
+
+        Person saved = personRepository.save(user);
+        // Générer JWT
+        String token = jwtService.generateToken(saved.getEmail());
+        return new TokenResponse(token);
     }
 
     // ---------------- Login classique ----------------
